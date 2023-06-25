@@ -6,19 +6,20 @@ import CanvasLoader from "../Loader";
 
 const Computers = ({isMobile}) => {
   const computer = useGLTF("./desktop_pc/scene.gltf");
-
   return (
     <mesh>
       <hemisphereLight intensity={0.15} groundColor="black" />
       <pointLight intensity={1} />
+
       <spotLight
            position={[-20,50,10]}
            angle={0.12}
            penumbra={1}
            intensity={1}
            castShadow
-           shadowMapSize={1024}
+           shadow-mapSize={1024}
       />
+
       <primitive
         object={computer.scene}
         scale={isMobile ? 0.7 : 0.75}
@@ -34,7 +35,7 @@ const ComputersCanvas = () => {
   const [isMobile, setIsMobile] = useState(false)
 
   useEffect(()=>{
-    const mediaQuery=window.matchMedia('(max-width:500)')
+    const mediaQuery=window.matchMedia('(max-width:500px)')
 
      setIsMobile(mediaQuery.matches);
 
@@ -55,7 +56,7 @@ const ComputersCanvas = () => {
       camera={{ position: [20, 3, 5], fov: 25 }}
       gl={{ preserveDrawingBuffer: true }}
     >
-      <Suspense >
+      <Suspense fallback={<CanvasLoader />}>
         <OrbitControls
           enableZoom={false}
           maxPolarAngle={Math.PI / 2}
